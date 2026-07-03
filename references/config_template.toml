@@ -1,0 +1,76 @@
+# cc-connect Configuration Template
+# Copy to ~/.cc-connect/config.toml and customize.
+# This template shows the WeChat (个人微信) platform configuration.
+
+[log]
+level = "info"
+
+[[projects]]
+name = "my-project"
+
+[projects.agent]
+type = "claudecode"   # "claudecode", "codex", "cursor", "gemini", "qoder", "opencode", or "iflow"
+
+[projects.agent.options]
+# REQUIRED: Change to a real Windows directory (use double backslashes)
+work_dir = "C:\\Users\\YOUR_USERNAME"
+mode = "default"
+# model = "claude-sonnet-4-20250514"  # Optional: override default model
+
+# --- WeChat (个人微信) Platform ---
+# This is the only platform needed for personal WeChat access.
+# Token is auto-filled by `cc-connect weixin setup` command.
+
+[[projects.platforms]]
+type = "weixin"
+
+[projects.platforms.options]
+# Auto-filled by `cc-connect weixin setup` — do not edit manually
+token = "YOUR_TOKEN_HERE"
+base_url = "https://ilinkai.weixin.qq.com"
+account_id = "YOUR_ACCOUNT_ID_HERE"
+
+# RECOMMENDED: Restrict access to your WeChat ID only.
+# Find your ID by sending a message to the bot, then check logs for:
+#   user=xxxxxxxxx@im.wechat
+allow_from = "YOUR_WECHAT_ID@im.wechat"
+
+# OPTIONAL: Enable privileged commands (/shell, /show, /dir, /restart, /upgrade)
+# Without this, these commands are blocked for security.
+admin_from = "YOUR_WECHAT_ID@im.wechat"
+
+# --- Feishu / Lark (OPTIONAL) ---
+# Only uncomment if you also want Feishu access.
+# Requires valid app_id and app_secret from Feishu developer console.
+
+# [[projects.platforms]]
+# type = "feishu"
+#
+# [projects.platforms.options]
+# app_id = "your-feishu-app-id"
+# app_secret = "your-feishu-app-secret"
+# allow_from = "your-feishu-user-id"
+
+# --- Multi-User Configuration (OPTIONAL) ---
+# To support multiple users, add additional [[projects]] blocks.
+# Each project is independent with its own work_dir and allow_from.
+#
+# [[projects]]
+# name = "user2"
+#
+# [projects.agent]
+# type = "claudecode"
+#
+# [projects.agent.options]
+# work_dir = "C:\\Users\\YOUR_USERNAME\\workspaces\\user2"
+# mode = "default"
+#
+# [[projects.platforms]]
+# type = "weixin"
+#
+# [projects.platforms.options]
+# token = "SAME_TOKEN_AS_ABOVE"
+# base_url = "https://ilinkai.weixin.qq.com"
+# account_id = "SAME_ACCOUNT_ID_AS_ABOVE"
+# allow_from = "USER2_WECHAT_ID@im.wechat"
+# admin_from = "USER2_WECHAT_ID@im.wechat"
