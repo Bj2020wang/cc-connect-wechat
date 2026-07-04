@@ -1,6 +1,13 @@
 # cc-connect Configuration Template
 # Copy to ~/.cc-connect/config.toml and customize.
 # This template shows the WeChat (个人微信) platform configuration.
+#
+# MODEL/PROVIDER NOTE:
+# The AI model and API provider are managed by CC Switch, NOT by this file.
+# CC Switch writes to ~/.claude/settings.json (env vars like ANTHROPIC_BASE_URL,
+# ANTHROPIC_AUTH_TOKEN, ANTHROPIC_MODEL). Claude Code reads those on launch.
+# To change models: switch provider in CC Switch GUI -> restart cc-connect service.
+# See SKILL.md Step 2 for CC Switch setup details.
 
 [log]
 level = "info"
