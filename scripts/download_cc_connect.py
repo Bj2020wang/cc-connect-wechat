@@ -15,7 +15,7 @@ import json
 import re
 
 # Default version (update as needed)
-DEFAULT_VERSION = "v1.3.4"
+DEFAULT_VERSION = "v1.4.1"
 
 def get_latest_version():
     """Try to fetch the latest release tag from GitHub API."""

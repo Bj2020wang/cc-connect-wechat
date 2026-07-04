@@ -96,7 +96,7 @@ if (Test-Path $ccSwitchExe) {
     Write-OK "CC Switch already installed at $ccSwitchExe"
 } else {
     Write-Info "Fetching latest CC Switch release..."
-    $ccSwitchVersion = "v3.16.3"
+    $ccSwitchVersion = "v3.16.5"
     try {
         $apiUrl = "https://api.github.com/repos/farion1231/cc-switch/releases/latest"
         $release = Invoke-RestMethod -Uri $apiUrl -Headers @{"User-Agent"="installer"} -TimeoutSec 15
@@ -146,7 +146,7 @@ if (Test-Path $ccConnectExe) {
     Write-OK "cc-connect already installed: $existingVer"
 } else {
     Write-Info "Fetching latest cc-connect release..."
-    $ccVer = "v1.3.4"
+    $ccVer = "v1.4.1"
     try {
         $apiUrl = "https://api.github.com/repos/chenhg5/cc-connect/releases/latest"
         $release = Invoke-RestMethod -Uri $apiUrl -Headers @{"User-Agent"="installer"} -TimeoutSec 15
