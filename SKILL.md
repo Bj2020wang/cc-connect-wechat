@@ -12,6 +12,43 @@ description: |
 Connect personal WeChat to Claude Code. One script does everything except
 two things you must do manually (scan QR + fill API Key).
 
+## Agent Instructions (Read First)
+
+When this skill is triggered, follow these steps IN ORDER:
+
+1. **Check prerequisites** — Ask the user if they have:
+   - Claude Code installed (`npm install -g @anthropic-ai/claude-code`)
+   - Node.js 18+ installed
+   - An API Key ready (DeepSeek recommended: https://platform.deepseek.com/)
+   - Phone with WeChat installed
+   If any are missing, guide them to install first.
+
+2. **Tell the user to open an Administrator PowerShell window.**
+   WorkBuddy's built-in PowerShell may NOT have admin rights, so the user must
+   open one themselves. Give them these EXACT instructions:
+
+   > Right-click Start menu → "Windows PowerShell (Admin)" or "Terminal (Admin)"
+   > Click "Yes" on the UAC prompt
+
+3. **Tell the user to paste this command in the admin PowerShell:**
+
+   ```powershell
+   Set-ExecutionPolicy Bypass -Scope Process -Force
+   & "$env:USERPROFILE\.workbuddy\skills\cc-connect-wechat\scripts\install_all.ps1"
+   ```
+
+4. **Explain what will happen next:**
+   - Script runs automatically for ~2-3 minutes (downloads + installs everything)
+   - It will PAUSE and show a QR code → user scans with phone WeChat
+   - It will PAUSE again → CC Switch opens, user fills in API Key
+   - Then it finishes and starts the service
+
+5. **Stay available for troubleshooting.** If the user reports errors,
+   check `references/troubleshooting.md` for solutions.
+
+DO NOT try to run install_all.ps1 from WorkBuddy's built-in PowerShell —
+it requires Administrator elevation and will fail without it.
+
 ## What Gets Installed
 
 ```
@@ -25,7 +62,7 @@ WeChat (your phone)  →  cc-connect (Windows service)  →  Claude Code  ←  C
 
 ## The 3-Step Flow
 
-### Step 1: Run the installer (automatic)
+### Step 1: Run the installer (automatic, ~2-3 min)
 
 The script `scripts/install_all.ps1` handles:
 - Prerequisites check (Claude Code, Node.js, admin rights)
@@ -36,12 +73,7 @@ The script `scripts/install_all.ps1` handles:
 - Inject PATH environment (so service can find `claude`)
 - Start service + verify
 
-**Run as Administrator in PowerShell:**
-
-```powershell
-Set-ExecutionPolicy Bypass -Scope Process -Force
-& "$env:USERPROFILE\.workbuddy\skills\cc-connect-wechat\scripts\install_all.ps1"
-```
+**Must be run in an Administrator PowerShell window** (see Agent Instructions above).
 
 The script pauses at two points and asks the user to do something — see below.
 
