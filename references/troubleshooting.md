@@ -185,6 +185,67 @@ credentials. If not using Feishu, this causes error spam.
 
 ---
 
+## Model Not Switching After CC Switch Change
+
+**Symptom:** Switched provider in CC Switch, but WeChat bot still responds with the old model.
+
+**Cause:** CC Switch updates `~/.claude/settings.json` instantly, but cc-connect's running
+Claude Code session has already loaded the old config into memory. The new provider settings
+only take effect when Claude Code restarts.
+
+**Fix:** Restart the cc-connect service after switching providers in CC Switch:
+
+```powershell
+net stop cc-connect
+net start cc-connect
+```
+
+Verify the new config is in place:
+```powershell
+Get-Content "$env:USERPROFILE\.claude\settings.json" | ConvertFrom-Json | Select-Object -ExpandProperty env
+```
+
+You should see the new `ANTHROPIC_BASE_URL`, `ANTHROPIC_AUTH_TOKEN`, and `ANTHROPIC_MODEL`.
+
+---
+
+## CC Switch Cannot Find Claude Code
+
+**Symptom:** CC Switch shows "Claude Code not found" or provider switching doesn't write
+to settings.json.
+
+**Cause:** CC Switch looks for Claude Code's config at `~/.claude/settings.json`. If Claude
+Code was never run, this file may not exist.
+
+**Fix:** Run Claude Code once to initialize its config:
+```powershell
+claude --version
+# Then launch claude once and exit
+claude
+# Press Ctrl+C or type /exit
+```
+
+Now check that `~/.claude/settings.json` exists:
+```powershell
+Test-Path "$env:USERPROFILE\.claude\settings.json"
+```
+
+---
+
+## CC Switch Provider List is Empty
+
+**Symptom:** CC Switch opens but shows no providers.
+
+**Cause:** First run — no providers configured yet.
+
+**Fix:** Click "Add Provider" and either:
+1. Select from 50+ built-in presets (recommended)
+2. Create a custom provider with your API key and base URL
+
+You need at least one provider configured and activated for Claude Code to work.
+
+---
+
 ## PowerShell Call Operator Error with Quoted Paths
 
 **Symptom:** Running `& "path1" "path2"` in PowerShell gives "unexpected token" parser error.
